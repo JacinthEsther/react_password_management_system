@@ -1,10 +1,14 @@
 import './App.css';
-import Login from './components/Login';
+import Register from './components/userAccount/Register';
+import Login from './components/userAccount/Login';
+import Update from './components/userAccount/Update';
 
 function App() {
   return (
     <div className="App">
-     <Login/>
+      <Register/>
+      {/* <Update/> */}
+      <Login/>
     </div>
   );
 }
