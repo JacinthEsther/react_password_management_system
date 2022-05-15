@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useState} from 'react'
+import axios from 'axios'
 
 const AddPassword = () => {
     const [alert, setAlert] = useState({ishow: false,status:'', message: ''})
@@ -35,7 +36,6 @@ const AddPassword = () => {
             <input name="url" onChange={handleUserInput}/>
         <label>email</label>
             <input name="email" onChange={handleUserInput}/>
-    
     </form>
     <button onClick={addPassword}>AddPassword</button>
     </div>

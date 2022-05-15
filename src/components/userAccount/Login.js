@@ -1,7 +1,10 @@
 import React,{useState} from 'react'
 import axios from 'axios'
-const Login = () => {
-    const [alert, setAlert] = useState({ishow: false,status:'', message: ''})
+import {useNavigate} from 'react-router-dom'
+
+
+const Login = ({setAlert}) => {
+    let history = useNavigate();
     const[userDetails, setUserDetails]= useState({email:'', password:''})
 
     const handleUserInput = (user) => {
@@ -16,32 +19,25 @@ const Login = () => {
             setAlert({isShow:true, status:"error", message:"incomplete field"})
             return;
         }
-        
-        // let validRegex=  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        // let isEmailCorrect = userDetails.email.match(validRegex)
-        // if(!isEmailCorrect){
-        //     setAlert({ishow: true, status: "error",message: "Email incorrect"})
-        //     return;
-        // }
-        // console.log(userDetails)
-        // `http://localhost:8083/api/user/login/${alert}`
         axios.post("http://localhost:8083/api/user/login", userDetails).then(
             data => {
                 console.log(data.data.message)
-               window.alert(data.data.message)
+            window.alert(data.data.message)
+            history("/user/addPassword")
             }
-        )
+        ).catch((e) => console.log(e.message))
     }
   return (
-    <div>
+    <div className="login-container">
         < h4>Login</h4>
-    <form>
+    <form onSubmit={handleLogin}>
         <label>Email</label>
-            <input name="email" onChange={handleUserInput}/>
+            <input type="email" name="email" onChange={handleUserInput}/>
         <label>Password</label>
-            <input type="password" name="password" onChange={handleUserInput}/>
+            <input type="password" name="password" title="Enter a password with atleast 8 characterss" onChange={handleUserInput} pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"/>
+            <button>Login</button>
     </form>
-    <button onClick={handleLogin}>Login</button>
+    
     </div>
   ) 
 }
